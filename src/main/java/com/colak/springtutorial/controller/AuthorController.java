@@ -1,7 +1,7 @@
 package com.colak.springtutorial.controller;
 
 import com.colak.springtutorial.controller.dto.AuthorDto;
-import com.colak.springtutorial.repository.AuthorRepository;
+import com.colak.springtutorial.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthorController {
 
-    private final AuthorRepository repository;
+    private final AuthorService authorService;
 
     // http://localhost:8080/api/authors
     // http://localhost:8080/api/authors?page=0&size=5
     @GetMapping
     public Page<AuthorDto> getAuthors(@PageableDefault(page = 0, size = 10) Pageable pageable) {
-        return repository.findAll(pageable)
+        return authorService.findAll(pageable)
                 .map(author -> {
                     AuthorDto dto = new AuthorDto();
                     dto.setId(author.getId());
